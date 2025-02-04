@@ -1,0 +1,24 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_vol:/data/db
+    networks:
+      - db_net
+    command: mongod --auth --bind_ip 0.0.0.0
+
+volumes:
+  mongodb_vol:
+
+networks:
+  db_net:
+    driver: bridge
