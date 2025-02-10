@@ -2,7 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Store/store";
 import { logout } from "../Store/authSlice";
 import Navbar from "./Navbar";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Dashboard() {
     const firstName = useSelector((state: RootState) => state.auth.firstName);
@@ -10,7 +11,6 @@ function Dashboard() {
     const email = useSelector((state: RootState) => state.auth.email);
     const id = useSelector((state: RootState) => state.auth.id); 
     const dispatch = useDispatch();
-    const [userData,setUserData] = useState(null);
 
     const handleLogout = () => {
         dispatch(logout());
@@ -18,27 +18,15 @@ function Dashboard() {
 
     const getUserById = async () => {
         try {
-            const response = await fetch("http://localhost:3000/dashboard", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ id }), 
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log(data);
-            console.log("sending id to user",id);
-            setUserData(data);
+            const response = await axios.post("http://localhost:3000/dashboard", { id});
+            console.log(id);
+            console.log(response.data);
         } catch (error) {
             console.error("Error fetching user:", error);
         }
     };
 
     useEffect(() => {
-        console.log("the id",id);
         if (id) {
             getUserById();
         } 

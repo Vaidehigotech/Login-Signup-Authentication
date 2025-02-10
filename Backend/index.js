@@ -73,11 +73,9 @@ app.post("/login", async (req, res) => {
 app.post("/dashboard", async (req, res) => {
     const { id } = req.body;
     console.log("Received ID from client:", id);
-
     if (!id) {
         return res.status(400).json({ error: "User ID is required" });
     }
-
     try {
         const user = await User.findById(id);
         if (!user) {
