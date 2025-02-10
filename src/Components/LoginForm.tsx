@@ -7,10 +7,12 @@ import { useDispatch } from "react-redux";
 import { login } from "../Store/authSlice";
 
 function LoginForm() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState("");
-    const [fullName, setFullName] = useState("");
+    const [password, setPassword] = useState("");
+
     useEffect(() => {
         const isAuthenticated = localStorage.getItem("authToken");
         if (isAuthenticated) {
@@ -20,21 +22,18 @@ function LoginForm() {
 
     const loginFormData = async (e: React.FormEvent) => {
         e.preventDefault();
-        const [firstName, lastName] = fullName.split(" ");
-        if (!email || !firstName || !lastName) {
-            alert("email and fullName are required");
+        if (!email || !password) {
+            alert("Email and password are required");
             return;
         }
         try {
-            const response = await api.post("/login", { email, firstName , lastName });
-            console.log(response);
+            const response = await api.post("/login", { email, password });
             if (response.status === 200) {
-                dispatch(login({ firstName, lastName, email }));
-                localStorage.setItem("authToken", "true");
+                const { user } = response.data;
+                dispatch(login(user)); 
                 alert("Login successful");
-                navigate("/dashboard");;
-            }
-            else {
+                navigate("/dashboard");
+            } else {
                 alert("Unexpected response. Please try again.");
             }
         } catch (error) {
@@ -42,9 +41,8 @@ function LoginForm() {
             alert("New user detected, please sign up first.");
             navigate("/signup");
         }
-        setEmail("");
-        setFullName("");
     };
+
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="bg-white w-80 p-6 rounded shadow-lg">
@@ -65,10 +63,10 @@ function LoginForm() {
                         <FaUserAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
                         <input
                             type="text"
-                            placeholder="Enter Full Name"
+                            placeholder="Enter Password"
                             className="w-full border border-gray-300 rounded p-2 pl-10"
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             autoComplete="current-password"
                         />
                     </div>

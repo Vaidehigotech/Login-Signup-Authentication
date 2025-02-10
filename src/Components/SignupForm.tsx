@@ -10,6 +10,8 @@ function SignupForm() {
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [password,setPassword] = useState("");
+    const [confirmPassword,setConfirmPassword] = useState(password);
 
     useEffect(() => {
         const isAuthenticated = localStorage.getItem("authToken");
@@ -19,12 +21,12 @@ function SignupForm() {
     }, [navigate])
     const signupFormData = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!email || !firstName || !lastName) {
+        if (!email || !firstName || !lastName || !password || !confirmPassword) {
             alert("All fields are required");
             return;
         }
         try {
-            const response = await api.post("/signup", { email, firstName, lastName });
+            const response = await api.post("/signup", { email, firstName, lastName, password, confirmPassword });
             if (response.status === 201) {
                 alert("Signup successful");
                 navigate("/login");
@@ -36,11 +38,13 @@ function SignupForm() {
         setEmail("");
         setFirstName("");
         setLastName("");
+        setPassword("");
+        setConfirmPassword("");
     };
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="bg-white w-80 p-6 rounded shadow-lg">
+            <div className="bg-white w-96 p-6 rounded shadow-lg">
                 <h2 className="text-center text-xl font-bold mb-4 text-myColor">Signup</h2>
                 <form className="flex flex-col gap-2" onSubmit={signupFormData}>
                     <div className="mb-4 relative">
@@ -71,6 +75,26 @@ function SignupForm() {
                             className="w-full border border-gray-300 rounded p-2 pl-10"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 relative">
+                    <FaUserAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Enter Password"
+                            className="w-full border border-gray-300 rounded p-2 pl-10"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4 relative">
+                    <FaUserAlt className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Enter Confirm Password"
+                            className="w-full border border-gray-300 rounded p-2 pl-10"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                     </div>
                     <button
