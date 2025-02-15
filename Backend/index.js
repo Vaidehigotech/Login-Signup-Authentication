@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./Model/UserSchema");
+const Contact = require("./Model/ContactSchema");
 
 const app = express();
 app.use(cors());
@@ -87,6 +88,31 @@ app.post("/dashboard", async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
+
+app.post("/contact",async(req,res)=>
+{
+    const { newName, newEmail } = req.body;
+    if (!newName || !newEmail) {
+        return res.status(400).json({ message: "Name and Email are required" });
+    }
+    try
+    {
+        const existingUser = await Contact.findOne({email: newEmail});
+        if(existingUser)
+        {
+            return res.status(400).json({error:"user already exists"});
+        }
+        const saveUser = new Contact({name:newName,email:newEmail});
+        console.log(saveUser);
+        await saveUser.save();
+        return res.status(201).json({name: saveUser.name, email: saveUser.email });
+    }
+    catch(error)
+    {
+        console.error("User already exists", error);
+        return res.status(500).json({ error: "Server error while creating user" });
+    }
+})
 
 
 app.listen(3000, () => console.log("Backend running on http://localhost:3000"));

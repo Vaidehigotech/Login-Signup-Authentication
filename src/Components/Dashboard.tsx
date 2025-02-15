@@ -1,24 +1,19 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../Store/store";
-import { logout } from "../Store/authSlice";
 import Navbar from "./Navbar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+import { logout } from "../Store/authSlice";
 
 function Dashboard() {
-    const firstName = useSelector((state: RootState) => state.auth.firstName);
-    const lastName = useSelector((state: RootState) => state.auth.lastName);
-    const email = useSelector((state: RootState) => state.auth.email);
-    const id = useSelector((state: RootState) => state.auth.id); 
     const dispatch = useDispatch();
-
     const handleLogout = () => {
-        dispatch(logout());
-    };
-
+            dispatch(logout());
+        };
+    const id = useSelector((state: RootState) => state.auth.id);
     const getUserById = async () => {
         try {
-            const response = await axios.post("http://localhost:3000/dashboard", { id});
+            const response = await axios.post("http://localhost:3000/dashboard", { id });
             console.log(id);
             console.log(response.data);
         } catch (error) {
@@ -29,22 +24,19 @@ function Dashboard() {
     useEffect(() => {
         if (id) {
             getUserById();
-        } 
-    }, [id]); 
+        }
+    }, [id]);
 
     return (
-        <div className="flex py-4 px-6 gap-14">
+        <div className="flex">
             <div className="w-1/4">
                 <Navbar />
             </div>
-            <div className="flex w-3/4 justify-between py-9">
-                <div className="flex-col">
-                    <h4 className="text-xl text-myColor">Email - {email}</h4>
-                    <h1 className="text-4xl text-myColor">Welcome {firstName} {lastName}</h1>
-                </div>
+            <div className="w-3/4 p-4 flex justify-between">
+                <h1 className="font-bold text-2xl">Dashboard</h1>
                 <button
                     type="button"
-                    className="h-10 px-4 py-2 bg-myColor text-white rounded-lg"
+                    className="h-12 w-36 bg-blue-800 text-white rounded-md"
                     onClick={handleLogout}
                 >
                     Logout

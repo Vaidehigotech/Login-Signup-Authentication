@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { login } from "../Store/authSlice";
 
+
 function LoginForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -45,8 +46,8 @@ function LoginForm() {
 
     return (
         <div className="flex items-center justify-center h-screen">
-            <div className="bg-white w-80 p-6 rounded shadow-lg">
-                <h2 className="text-center text-xl font-bold mb-4 text-myColor">Login</h2>
+            <div className="bg-slate-200 w-80 p-6 rounded shadow-lg">
+                <h2 className="text-center text-xl font-bold mb-4">Login</h2>
                 <form className="flex flex-col gap-2" onSubmit={loginFormData}>
                     <div className="mb-4 relative">
                         <MdEmail className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" />
@@ -81,11 +82,11 @@ function LoginForm() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-myColor text-white p-2 rounded"
+                        className="w-full bg-blue-800 text-white p-2 rounded"
                     >
                         Login
                     </button>
-                    <div className="flex gap-7">
+                    <div className="flex justify-between">
                         <span>Don't have an account</span>
                         <a href="/signup" className="text-blue-900">Signup</a>
                     </div>

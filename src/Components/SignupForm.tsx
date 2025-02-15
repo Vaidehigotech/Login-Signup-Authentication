@@ -44,7 +44,7 @@ function SignupForm() {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="bg-white w-96 p-6 rounded shadow-lg">
+            <div className="bg-slate-200 w-96 p-6 rounded shadow-lg">
                 <h2 className="text-center text-xl font-bold mb-4 text-myColor">Signup</h2>
                 <form className="flex flex-col gap-2" onSubmit={signupFormData}>
                     <div className="mb-4 relative">
@@ -99,11 +99,11 @@ function SignupForm() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-myColor text-white p-2 rounded"
+                        className="w-full bg-blue-800 text-white p-2 rounded"
                     >
                         Signup
                     </button>
-                    <div className="flex gap-7">
+                    <div className="flex justify-between">
                         <span>Already have an account</span>
                         <a href="/login" className="text-blue-900">Login</a>
                     </div>

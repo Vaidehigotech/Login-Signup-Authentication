@@ -5,7 +5,7 @@ export default {
     extend: {
       colors:
       {
-        myColor:"rgba(53, 94, 97, 0.499)",
+       
       }
     },
   },
